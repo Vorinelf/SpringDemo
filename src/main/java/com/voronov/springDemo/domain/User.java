@@ -1,6 +1,7 @@
 package com.voronov.springDemo.domain;
 
 import org.hibernate.annotations.Generated;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -8,8 +9,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
-
 @Entity
 @Table(name ="usr")
 public class User implements UserDetails {
@@ -69,13 +71,24 @@ public class User implements UserDetails {
     @Enumerated (EnumType.STRING)
     private Set<Role> roles;
 
-    public boolean isAdmin(){
-        return roles.contains(Role.ADMIN);
-    }
+    @OneToMany (mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Message> messages;
 
-    public String getUsername() {
-        return username;
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "user_subscriptions",
+            joinColumns = {@JoinColumn(name = "channel_id")},
+            inverseJoinColumns = {@JoinColumn(name = "subscriber_id")}
+    )
+    private Set<User> subscribers = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_subscriptions",
+            joinColumns = {@JoinColumn(name = "subscriber_id")},
+            inverseJoinColumns = {@JoinColumn(name = "channel_id")}
+    )
+    private Set<User> subscriptions = new HashSet<>();
 
     @Override
     public boolean isAccountNonExpired() {
@@ -96,6 +109,18 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return isActive();
     }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
     public void setUsername(String username) {
         this.username = username;
@@ -112,7 +137,39 @@ public class User implements UserDetails {
         return activationCode;
     }
 
+    public Set<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(Set<Message> messages) {
+        this.messages = messages;
+    }
+
     public void setActivationCode(String activationCode) {
         this.activationCode = activationCode;
     }
- }
+
+    public boolean isAdmin(){
+        return roles.contains(Role.ADMIN);
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public Set<User> getSubscribers() {
+        return subscribers;
+    }
+
+    public void setSubscribers(Set<User> subscribers) {
+        this.subscribers = subscribers;
+    }
+
+    public Set<User> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(Set<User> subscriptions) {
+        this.subscriptions = subscriptions;
+    }
+}

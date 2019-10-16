@@ -50,8 +50,8 @@
             </div>
             <div class="col-sm-6">
             <div class="g-recaptcha" data-sitekey="6LeCvbkUAAAAAGMTj-72guRfdCSj90CDEwo7jwu-"></div>
-           <#if captchaError??>
-           <div class = "alert alert-danger" role="alert">
+                <#if captchaError??>
+                 <div class = "alert alert-danger" role="alert">
            ${captchaError}
            </div>
            </#if>
@@ -66,6 +66,6 @@
 <#macro logout>
     <form action="/logout" method="post">
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-        <button class="btn btn-primary mb-2" type="submit">Sign Out</button>
+        <button class="btn btn-primary mb-2" type="submit"><#if user??> Sign Out<#else> Log in</#if></button>
     </form>
 </#macro>
