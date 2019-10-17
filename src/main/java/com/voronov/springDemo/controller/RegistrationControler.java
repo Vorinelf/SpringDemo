@@ -21,7 +21,7 @@ import java.util.Map;
 
 @Controller
 public class RegistrationControler {
-    private final static String CAPTCHA_URL = "https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s";
+    private final static String CAPTCHA_URL="https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s";
     @Autowired
     private UserService userService;
 
