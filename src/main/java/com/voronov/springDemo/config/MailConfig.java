@@ -30,7 +30,7 @@ public class MailConfig {
     private String debug;
 
     @Bean
-    public JavaMailSender getMailSendler(){
+    public JavaMailSender getMailSendler() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 
         mailSender.setHost(host);
@@ -39,9 +39,10 @@ public class MailConfig {
         mailSender.setPassword(password);
 
         Properties properties = mailSender.getJavaMailProperties();
-        properties.setProperty("mail.transport.protocol",protocol);
-        properties.setProperty("mail.debug",debug);
+        properties.setProperty("mail.transport.protocol", protocol);
+        properties.setProperty("mail.debug", debug);
         properties.setProperty("mail.smtp.ssl.enable", "true");
 
         return mailSender;
-    }}
+    }
+}

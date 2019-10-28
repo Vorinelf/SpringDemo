@@ -70,7 +70,7 @@ public class MessageController {
             BindingResult bindingResult,
             Model model,
             @RequestParam(required = false, defaultValue = "") String filter,
-            @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable,
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
             @RequestParam("file") MultipartFile file
     ) throws IOException {
         message.setAuthor(user);
@@ -166,14 +166,14 @@ public class MessageController {
 
         if (likes.contains(currentUser)) {
             likes.remove(currentUser);
-        } else{
+        } else {
             likes.add(currentUser);
         }
 
         UriComponents components = UriComponentsBuilder.fromHttpUrl(referer).build();
         components.getQueryParams()
                 .entrySet()
-                .forEach(pair->redirectAttributes.addAttribute(pair.getKey(), pair.getValue()));
+                .forEach(pair -> redirectAttributes.addAttribute(pair.getKey(), pair.getValue()));
         return "redirect:" + components.getPath();
 
     }
