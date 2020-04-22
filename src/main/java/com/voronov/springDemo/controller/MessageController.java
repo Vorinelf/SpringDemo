@@ -31,6 +31,7 @@ import java.util.UUID;
 
 @Controller
 public class MessageController {
+
     @Autowired
     private MessageRepo messageRepo;
 
@@ -54,13 +55,11 @@ public class MessageController {
     ) {
         Page<MessageDto> page = messageService.messageList(pageable, filter, user);
 
-
         model.addAttribute("page", page);
         model.addAttribute("url", "/main");
         model.addAttribute("filter", filter);
 
         return "main";
-
     }
 
     @PostMapping("/main")
@@ -82,12 +81,9 @@ public class MessageController {
             model.addAttribute("message", message);
         } else {
             saveFile(message, file);
-
             model.addAttribute("message", null);
-
             messageRepo.save(message);
         }
-
         Page<MessageDto> page = messageService.messageList(pageable, filter, user);
         model.addAttribute("page", page);
 
@@ -100,13 +96,11 @@ public class MessageController {
             if (!uploadDir.exists()) {
                 uploadDir.mkdir();
             }
-
             String uuidFile = UUID.randomUUID().toString();
             String resultFilename = uuidFile + "." + file.getOriginalFilename();
 
             file.transferTo(new File(uploadPath + "/" + resultFilename));
             message.setFilename(resultFilename);
-
         }
     }
 
@@ -175,8 +169,5 @@ public class MessageController {
                 .entrySet()
                 .forEach(pair -> redirectAttributes.addAttribute(pair.getKey(), pair.getValue()));
         return "redirect:" + components.getPath();
-
     }
-
-
 }

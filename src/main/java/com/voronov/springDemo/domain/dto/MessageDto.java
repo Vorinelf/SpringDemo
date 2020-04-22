@@ -5,6 +5,7 @@ import com.voronov.springDemo.domain.User;
 import com.voronov.springDemo.domain.util.MessageHelper;
 
 public class MessageDto {
+
     private Long id;
     private String text;
     private String tag;
@@ -23,7 +24,7 @@ public class MessageDto {
         this.meLiked = meLiked;
     }
 
-    public String getAuthorName(){
+    public String getAuthorName() {
         return MessageHelper.getAuthorName(author);
     }
 

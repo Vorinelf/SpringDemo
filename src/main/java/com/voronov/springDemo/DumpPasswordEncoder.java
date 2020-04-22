@@ -3,6 +3,7 @@ package com.voronov.springDemo;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class DumpPasswordEncoder implements PasswordEncoder {
+
     @Override
     public String encode(CharSequence rawPassword) {
         return String.format("secret: '%s'", rawPassword);
